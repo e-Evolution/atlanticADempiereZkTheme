@@ -1,7 +1,7 @@
 Atlantic Theme
 ========
 
-# ZK Flat Design Theme
+# ADempiere Zk Flat Design Theme
 
 Usage:
 
@@ -18,3 +18,6 @@ run `init.sh` can change the theme name, but you need to update some Java class 
 
 ## produce jar
 run `mvn clean package` to produce a theme jar.
+
+##  Run preview application 
+run `mvn test exec:java@preview-app` to review any changes
