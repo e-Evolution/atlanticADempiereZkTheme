@@ -13,6 +13,8 @@
 		<zktheme.theme.outputDirectory>${project.build.outputDirectory}/web/${project.artifactId}</zktheme.theme.outputDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<zkless.opts>{"javascriptEnabled": true}</zkless.opts>
+		<zkspringboot.version>2.5.3</zkspringboot.version>
+		<springboot.version>2.5.3</springboot.version>
 	</properties>
 	<packaging>jar</packaging>
 	<name>The Atlantic Theme</name>
@@ -88,6 +90,20 @@
 			<version>${zk.version}</version>
 			<optional>true</optional>
 		</dependency>
+		<!-- test dependencies for preview app -->
+		<dependency>
+			<groupId>org.zkoss.zkspringboot</groupId>
+			<artifactId>zkspringboot-autoconfig</artifactId>
+			<version>${zkspringboot.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${springboot.version}</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>${project.basedir}/src/</sourceDirectory>
@@ -106,6 +122,12 @@
 				<targetPath>${zktheme.theme.outputDirectory}</targetPath>
 			</resource>
 		</resources>
+		<testSourceDirectory>${project.basedir}/preview/</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/preview/</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -118,21 +140,31 @@
 						<goals>
 							<goal>exec</goal>
 						</goals>
+						<configuration>
+							<executable>npx</executable>
+							<arguments>
+								<argument>zklessc</argument>
+								<argument>--source</argument>
+								<argument>${zktheme.web.resources}</argument>
+								<argument>--output</argument>
+								<argument>${zktheme.theme.outputDirectory}</argument>
+								<argument>--compress</argument>
+								<argument>--less-opts</argument>
+								<argument>${zkless.opts}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>preview-app</id>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>zk.example.ThemePreviewApp</mainClass>
+							<classpathScope>test</classpathScope>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>npx</executable>
-					<arguments>
-						<argument>zklessc</argument>
-						<argument>--source</argument>
-						<argument>${zktheme.web.resources}</argument>
-						<argument>--output</argument>
-						<argument>${zktheme.theme.outputDirectory}</argument>
-						<argument>--compress</argument>
-						<argument>--less-opts</argument>
-						<argument>${zkless.opts}</argument>
-					</arguments>
-				</configuration>
 			</plugin>
 			<!-- Compile java -->
 			<plugin>
