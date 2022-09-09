@@ -8,7 +8,7 @@ import org.zkoss.lang.Library;
 public class ThemePreviewApp {
     public static void main(String[] args) {
         System.setProperty("zk.homepage", "preview");
-        Library.setProperty("org.zkoss.theme.preferred", "ADempiereZkTheme");
+        Library.setProperty("org.zkoss.theme.preferred", "atlantic");
         //disable caches for development
         Library.setProperty("org.zkoss.zk.ZUML.cache", "false");
         Library.setProperty("org.zkoss.zk.WPD.cache", "false");
